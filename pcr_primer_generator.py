@@ -1,11 +1,27 @@
 seq_input = input("DNA sequence: ")
 sequence = seq_input.upper()
 # get reverse complement of sequence
-revcomp = sequence[::-1]
+revseq = sequence[::-1]
 
 # get user inputted min / max Tm
 min_tm = int(input("Minimum Tm : "))
 max_tm = int(input("Maximum Tm: "))
+
+
+# get complementary sequence of a given sequence
+def get_comp(seq):
+    result = []
+    for nt in seq:
+        if nt == "A":
+            result.append("T")
+        if nt == "G":
+            result.append("C")
+        if nt == "T":
+            result.append("A")
+        if nt == "C":
+            result.append("G")
+    result_string = "".join(result)
+    return result_string
 
 
 # calculate gc and tm for each primer
@@ -49,8 +65,11 @@ def tm_ok(tmvalue):
         return True
 
 
-# store potential forward and reverse primers
-fprimers = primer_dict(sequence)
+seqcomp = get_comp(sequence)
+revcomp = get_comp(revseq)
+
+# store potential forward and reverse primers between length 18 and 30
+fprimers = primer_dict(seqcomp)
 rprimers = primer_dict(revcomp)
 
 # generate pairs
@@ -86,12 +105,11 @@ for pair in sorted_pairs:
 recommended_primers = []
 for pair in sorted_pairs:
     if pair[2] == highest_score:
-        recommended_primers.append([pair[0],pair[1]])
+        recommended_primers.append([pair[0], pair[1]])
 
-#print recommended primers
+# print recommended primers
 print("Recommended primers:")
-for n in range(0,len(recommended_primers)):
-    print(f'Pair {n+1}:')
+for n in range(0, len(recommended_primers)):
+    print(f'Pair {n + 1}:')
     print(f'Forward primer: {recommended_primers[n][0]}')
     print(f'Reverse primer: {recommended_primers[n][1]}')
-
