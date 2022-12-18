@@ -1,4 +1,4 @@
-path = input("path")
+path = input("path: ")
 with open(path) as text_file:
     data = text_file.read()
 data = data.split(">")
