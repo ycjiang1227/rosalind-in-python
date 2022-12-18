@@ -1,4 +1,5 @@
-with open("/Users/yuchenjiang/Downloads/rosalind_cons (1).txt") as text_file:
+path = input("path")
+with open(path) as text_file:
     data = text_file.read()
 data = data.split(">")
 data = [i.split("\n") for i in data]
